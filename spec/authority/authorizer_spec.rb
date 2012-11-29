@@ -60,7 +60,7 @@ describe Authority::Authorizer do
         it "delegates `#{method_name}` to the authorizer's `default` method, passing the options" do
           able = method_name.sub('_by?', '').to_sym
           Authority::Authorizer.should_receive(:default).with(able, @user, :with => 'gusto')
-          Authority::Authorizer.send(method_name, @user, :with => 'gusto')
+          Authority::Authorizer.send(method_name, @user, ExampleModel, :with => 'gusto')
         end
 
       end
@@ -70,7 +70,7 @@ describe Authority::Authorizer do
         it "delegates `#{method_name}` to the authorizer's `default` method, passing no options" do
           able = method_name.sub('_by?', '').to_sym
           Authority::Authorizer.should_receive(:default).with(able, @user)
-          Authority::Authorizer.send(method_name, @user)
+          Authority::Authorizer.send(method_name, @user, ExampleModel)
         end
 
       end

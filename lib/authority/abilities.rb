@@ -23,7 +23,7 @@ module Authority
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def #{adjective}_by?(user, options = {})
             if options.empty?
-              authorizer.#{adjective}_by?(user)
+              authorizer.#{adjective}_by?(user, self)
             else
               authorizer.#{adjective}_by?(user, self, options)
             end

@@ -30,7 +30,7 @@ module Authority
     # Each class method simply calls the `default` method
     Authority.adjectives.each do |adjective|
       class_eval <<-RUBY, __FILE__, __LINE__ + 1
-        def self.#{adjective}_by?(user, options = {})
+        def self.#{adjective}_by?(user, resource, options = {})
           if options.empty?
             default(:#{adjective}, user)
           else

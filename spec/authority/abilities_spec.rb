@@ -64,7 +64,7 @@ describe Authority::Abilities do
       describe "if not given an options hash" do
 
         it "delegates `#{method_name}` to its authorizer class, passing no options" do
-          ExampleModel.authorizer.should_receive(method_name).with(@user)
+          ExampleModel.authorizer.should_receive(method_name).with(@user, ExampleModel)
           ExampleModel.send(method_name, @user)
         end
 
