@@ -27,7 +27,7 @@ describe Authority::Authorizer do
       describe "if given an options hash" do
 
         it "delegates `#{method_name}` to the corresponding class method, passing the options" do
-          @authorizer.class.should_receive(method_name).with(@user, :under => 'God')
+          @authorizer.class.should_receive(method_name).with(@user, @example_model.class, :under => 'God')
           @authorizer.send(method_name, @user, :under => 'God')
         end
 
@@ -36,7 +36,7 @@ describe Authority::Authorizer do
       describe "if not given an options hash" do
 
         it "delegates `#{method_name}` to the corresponding class method, passing no options" do
-          @authorizer.class.should_receive(method_name).with(@user)
+          @authorizer.class.should_receive(method_name).with(@user, @example_model.class)
           @authorizer.send(method_name, @user)
         end
 

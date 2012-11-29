@@ -55,7 +55,7 @@ describe Authority::Abilities do
       describe "if given an options hash" do
 
         it "delegates `#{method_name}` to its authorizer class, passing the options" do
-          ExampleModel.authorizer.should_receive(method_name).with(@user, :lacking => 'nothing')
+          ExampleModel.authorizer.should_receive(method_name).with(@user, ExampleModel, :lacking => 'nothing')
           ExampleModel.send(method_name, @user, :lacking => 'nothing')
         end
 

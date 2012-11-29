@@ -19,9 +19,9 @@ module Authority
       class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{adjective}_by?(user, options = {})
           if options.empty?
-            self.class.#{adjective}_by?(user)
+            self.class.#{adjective}_by?(user, resource.class)
           else
-            self.class.#{adjective}_by?(user, options)
+            self.class.#{adjective}_by?(user, resource.class, options)
           end
         end
       RUBY

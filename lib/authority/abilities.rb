@@ -25,7 +25,7 @@ module Authority
             if options.empty?
               authorizer.#{adjective}_by?(user)
             else
-              authorizer.#{adjective}_by?(user, options)
+              authorizer.#{adjective}_by?(user, self, options)
             end
           end
         RUBY

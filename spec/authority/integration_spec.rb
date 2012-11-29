@@ -19,7 +19,7 @@ describe "integration from user through model to authorizer" do
       describe "if given an options hash" do
 
         it "delegates `#{adjective_method}` to its authorizer class, passing the options" do
-          ExampleModel.authorizer.should_receive(adjective_method).with(@user, :lacking => 'nothing')
+          ExampleModel.authorizer.should_receive(adjective_method).with(@user, @example_model.class, :lacking => 'nothing')
           @user.send(verb_method, ExampleModel, :lacking => 'nothing')
         end
 
@@ -28,7 +28,7 @@ describe "integration from user through model to authorizer" do
       describe "if not given an options hash" do
 
         it "delegates `#{adjective_method}` to its authorizer class, passing no options" do
-          ExampleModel.authorizer.should_receive(adjective_method).with(@user)
+          ExampleModel.authorizer.should_receive(adjective_method).with(@user, @example_model.class)
           @user.send(verb_method, @example_model)
         end
 
