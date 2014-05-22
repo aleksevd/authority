@@ -41,6 +41,17 @@ module Authority
     resource
   end
 
+  def self.enforce_custom(action, resource, user, *options)
+    action_authorized = if options.empty?
+                          user.class.send("authorizes_to_#{action}?", user)
+                        else
+                          user.class.send("authorizes_to_#{action}?", user, Hash[*options])
+                        end
+    raise SecurityViolation.new(user, action, resource) unless action_authorized
+
+    action_authorized
+  end
+
   class << self
     attr_accessor :configuration
   end

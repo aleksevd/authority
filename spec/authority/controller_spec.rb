@@ -3,7 +3,19 @@ require 'support/example_model'
 require 'support/example_controllers'
 require 'support/mock_rails'
 require 'support/user'
-require 'active_support/core_ext/proc'
+
+class Proc
+  def bind object
+    block, time = self, Time.now
+    object.class_eval do
+      method_name = "__bind_#{time.to_i}_#{time.usec}"
+      define_method(method_name, &block)
+      method = instance_method(method_name)
+      remove_method(method_name)
+      method
+    end.bind(object)
+  end
+end
 
 describe Authority::Controller do
 
@@ -88,6 +100,7 @@ describe Authority::Controller do
         @controller = ExampleController.new
         @controller.stub!(:action_name).and_return(:edit)
         @controller.stub!(Authority.configuration.user_method).and_return(@user)
+        @user.class.stub!(:authorizes_to_custom_action?).and_return(true)
       end
 
       it "checks authorization on the model specified" do
@@ -113,6 +126,11 @@ describe Authority::Controller do
       it "returns the authority_user for the current request by using the configured user_method" do
         @controller.should_receive(Authority.configuration.user_method)
         @controller.send(:authority_user)
+      end
+
+      it "performs custom check for no resource if requested" do
+        expect(@user.class).to receive(:authorizes_to_custom_action?).with(@user)
+        @controller.send(:authorize_action, :custom_action)
       end
 
       describe "in controllers that inherited from a controller including authority, but don't call any class method" do

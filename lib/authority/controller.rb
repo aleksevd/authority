@@ -88,6 +88,10 @@ module Authority
       Authority.enforce(authority_action, authority_resource, authority_user, *options)
     end
 
+    def authorize_action(action, resource = nil, *options)
+      Authority.enforce_custom(action, resource, authority_user, *options)
+    end
+
     class MissingAction < StandardError ; end
   end
 end
